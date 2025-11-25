@@ -89,6 +89,7 @@ public class User {
     public Set<Scope> getScopes() {
         return scopes;
     }
+
     public void setScopes(Set<Scope> scopes) {
         this.scopes = scopes;
     }

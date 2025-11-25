@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -37,9 +38,10 @@ public class NoteController {
     @PreAuthorize("hasAuthority('SCOPE_note:write')")
     public ResponseEntity<Void> createNote(@AuthenticationPrincipal Jwt jwt,
                                            @RequestBody NoteRequest noteRequest) {
-        createNoteService.createNote(noteRequest.content(),
+        var note = createNoteService.createNote(noteRequest.content(),
                 noteRequest.title(),
                 Long.valueOf(jwt.getSubject()));
-        return ResponseEntity.ok().build();
+
+        return ResponseEntity.created(URI.create("/notes/" + note.getId())).build();
     }
 }

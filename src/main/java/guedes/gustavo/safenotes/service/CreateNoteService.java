@@ -1,5 +1,6 @@
 package guedes.gustavo.safenotes.service;
 
+import guedes.gustavo.safenotes.entity.Note;
 import guedes.gustavo.safenotes.entity.User;
 import guedes.gustavo.safenotes.repository.NoteRepository;
 import guedes.gustavo.safenotes.repository.UserRepository;
@@ -15,14 +16,14 @@ public class CreateNoteService {
         this.noteRepository = noteRepository;
     }
 
-    public void createNote(String content,
+    public Note createNote(String content,
                            String title, Long ownerId) {
         var note = new guedes.gustavo.safenotes.entity.Note();
         var user = findUserById(ownerId);
         note.setContent(content);
         note.setOwner(user);
         note.setTitle(title);
-        noteRepository.save(note);
+        return noteRepository.save(note);
     }
 
     private User findUserById(Long ownerId) {
