@@ -2,8 +2,10 @@ package guedes.gustavo.safenotes.controller;
 
 import guedes.gustavo.safenotes.controller.dto.NoteRequest;
 import guedes.gustavo.safenotes.controller.dto.NoteResponse;
+import guedes.gustavo.safenotes.controller.dto.UpdateNoteRequest;
 import guedes.gustavo.safenotes.service.CreateNoteService;
 import guedes.gustavo.safenotes.service.ListNoteService;
+import guedes.gustavo.safenotes.service.UpdateNoteService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,11 +21,14 @@ public class NoteController {
 
     private final ListNoteService listNoteService;
     private final CreateNoteService createNoteService;
+    private final UpdateNoteService updateNoteService;
 
     public NoteController(ListNoteService listNoteService,
-                          CreateNoteService createNoteService) {
+                          CreateNoteService createNoteService,
+                          UpdateNoteService updateNoteService) {
         this.createNoteService = createNoteService;
         this.listNoteService = listNoteService;
+        this.updateNoteService = updateNoteService;
     }
 
     @GetMapping
@@ -43,5 +48,15 @@ public class NoteController {
                 Long.valueOf(jwt.getSubject()));
 
         return ResponseEntity.created(URI.create("/notes/" + note.getId())).build();
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_note:write')")
+    public ResponseEntity<Void> updateNote(@PathVariable Long id,
+                                           @AuthenticationPrincipal Jwt jwt,
+                                           @RequestBody UpdateNoteRequest noteRequest) {
+        updateNoteService.updateNote(id, Long.valueOf(jwt.getSubject()), noteRequest);
+
+        return ResponseEntity.noContent().build();
     }
 }
