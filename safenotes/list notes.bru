@@ -1,0 +1,20 @@
+meta {
+  name: list notes
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://localhost:8080/notes
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

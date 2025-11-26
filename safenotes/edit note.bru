@@ -1,0 +1,26 @@
+meta {
+  name: edit note
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:8080/notes/1
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "title": "meu novo titulo"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

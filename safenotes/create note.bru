@@ -1,0 +1,27 @@
+meta {
+  name: create note
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8080/notes
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "title": "teste",
+    "content": "meu teste"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
