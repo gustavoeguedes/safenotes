@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface NoteRepository extends JpaRepository<Note, Long> {
     List<Note> findAllByOwnerId(Long ownerId);
 
-    Optional<Note> findByIdAndOwnerId(Long id, Long userId);
+    boolean existsByIdAndOwnerId(Long noteId, Long ownerId);
 }

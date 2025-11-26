@@ -3,6 +3,7 @@ package guedes.gustavo.safenotes.service;
 import guedes.gustavo.safenotes.controller.dto.UpdateNoteRequest;
 import guedes.gustavo.safenotes.repository.NoteRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UpdateNoteService {
@@ -13,9 +14,9 @@ public class UpdateNoteService {
         this.noteRepository = noteRepository;
     }
 
-    public void updateNote(Long id, Long userId, UpdateNoteRequest req) {
-        var note = noteRepository.findByIdAndOwnerId(id, userId)
-                .orElseThrow(() -> new RuntimeException("Note not found"));
+    @Transactional
+    public void updateNote(Long id, UpdateNoteRequest req) {
+        var note = noteRepository.getReferenceById(id);
 
         if (req.title() != null) {
             note.setTitle(req.title());

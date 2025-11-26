@@ -21,4 +21,5 @@ public class ListNoteService {
                 .map(note -> new NoteResponse(note.getId(), note.getTitle(), note.getContent()))
                 .toList();
     }
+
 }
